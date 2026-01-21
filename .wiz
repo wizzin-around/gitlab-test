@@ -1,8 +1,0 @@
-ignore:
-  vulnerabilities:
-    - CVE-2024-3817:
-      /vulns/go.mod:
-        reason: BY_DESIGN
-  iac:
-    35e35c87-9920-4f8e-8efb-f64c30342e3e:
-      /docker/Dockerfile2: {}
