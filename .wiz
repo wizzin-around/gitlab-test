@@ -1,5 +1,0 @@
-ignore:
-  secrets:
-    SECRET-1065:
-      /api_keys/github.personal-access-token-v2.txt:
-        reason: EXCEPTION
