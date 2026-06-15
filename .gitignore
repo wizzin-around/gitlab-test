@@ -1,2 +1,13 @@
 .gemini/
 gha-creds-*.json
+# AWS credentials
+**/.aws*
+**/aws-keys*
+**/aws_credentials*
+**/*.pem
+**/*.key
+# GCP credentials
+**/gcp-*.json
+**/service-account*.json
+# Azure credentials
+**/azure-credentials*
