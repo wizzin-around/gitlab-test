@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Dr. Stefan Pfeiffer</title>
+</head>
+
+<body>
+    \n\n\n \n \n\n
+    <meta content="\&quot;width=device-width," name="\&quot;viewport\&quot;">\n\n
+    <link href="\&quot;css/structure.css\&quot;" rel="\&quot;stylesheet\&quot;" type="\&quot;text/css\&quot;">\n
+    <link href="\&quot;css/typography.css\&quot;" rel="\&quot;stylesheet\&quot;" type="\&quot;text/css\&quot;">\n
+    <link href="\&quot;https://fonts.googleapis.com/css?family=PT+Serif\&quot;" rel="\&quot;stylesheet\&quot;" type="\&quot;text/css\&quot;">\n
+    <script src="/&quot;https://cdn.rawgit.com/google/code-prettify/master/loader/run_prettify.js/&quot;">
+    </script>\n\n
+    <script type="\&quot;module\&quot;">
+        \n import { React, ReactDOM } from 'https://unpkg.com/es-react@16.12.0/dev';\n import htm from 'https://unpkg.com/htm?module'\n import { endpoint } from 'https://cdn.skypack.dev/@octokit/endpoint';\n import marked from 'https://unpkg.com/marked@0.8.0/lib/marked.esm.js';\n\n const html = htm.bind(React.createElement)\n\n const Header = (props) => {\n return html`\n
+        <div className=\ "header\">\n
+            <h1 className=\ "title\">\n <a href=\ "index.html\"><strong>Dr. Stefan Pfeiffer</strong></a>\n </h1>\n
+            <p className=\ "description\">\n <strong>Clojure</strong>, <strong>esoteric keyboard mappings</strong> and other strange addictions\n </p>\n </div>\n `;\n }\n\n const Posts = (props) => {\n const [issues, setIssues] = React.useState();\n\n React.useEffect(() => {\n async function fetchIssues() {\n if (!issues) {\n const { url, ...options } = endpoint(\"GET /repos/:owner/:repo/issues\", {\n owner: \"dl1ely\",\n repo: \"dl1ely.github.io\",\n auth: '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'\n });\n const res = await fetch(url, options);\n setIssues(await res.json());\n }\n }\n\n fetchIssues();\n }, [issues]);\n\n const {\n search,\n } = window.location;\n\n return html`\n
+        <div className=\ "posts\">\n ${(issues || [])\n .filter(({ user }) => user.login === 'dl1ely')\n .filter(({ number }) => !search || Number(search.slice(1)) === number)\n .map(({\n number,\n title,\n labels,\n user,\n created_at,\n comments,\n body,\n }) => html`\n
+            <div\n className=\ "post\"\n id={${number}}\n key={${number}}\n>\n
+                <h1 className=\ "title\">\n <a href=\ "?${number}\">\n                      ${title}\n                    </a>\n </h1>\n ${labels.length > 0 && html`\n
+                <div className=\ "categories\">\n in\n ${labels.map((label) => html`\n
+                    <span\n key=\ "${label.id}\"\n style=${{ color: '#' + label.color, padding: '0 .25em' }}\n>\n ${label.name}\n </span>\n `)}\n </div>\n `}\n
+                <div className=\ "meta\">\n <span>by </span>\n <a href=\ "${user.html_url}\">${user.login}</a>\n <span>, </span>\n <span>${new Date(created_at).toLocaleDateString()} </span>\n ${comments\n ? html`\n <a href=\ "?${number}\">\n                          ${comments} comment(s)\n                        </a>\n `\n : null\n }\n </div>\n
+                <div\n className=\ "body\"\n dangerouslySetInnerHTML=\ "${{ __html: marked(body).replace(/<pre>/g, '<pre class=\"prettyprint\ ">')}}\"\n />\n </div>\n `)}\n </div>\n `\n }\n\n ReactDOM.render(\n html`\n
+        <${Header} />\n
+        <${Posts} />\n `,\n document.querySelector('#content')\n )\n
+    </script>\n \n \n
+    <div id="\&quot;content\&quot;"></div>\n\n\n
+</body>
+
+</html>
