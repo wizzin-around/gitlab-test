@@ -31,3 +31,5 @@ Your subscriptions include all pulses:
 - Created by authors you subscribe to
 - Pulses you subscribe to directly
 - Pulses you create
+
+Retrying
